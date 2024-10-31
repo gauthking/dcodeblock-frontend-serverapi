@@ -1,6 +1,8 @@
 import express from 'express';
 import Cors from 'cors';
 import mongoose from 'mongoose';
+import userRoutes from './routes/userRoutes';
+
 
 require('dotenv').config();
 
@@ -20,10 +22,10 @@ app.use(Cors());
 mongoose.connect(connection_url, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-} as any);
+} as any)
 
 
-
+// api routes
 app.use("/api/user", userRoutes)
 
 app.listen(port, () => {
