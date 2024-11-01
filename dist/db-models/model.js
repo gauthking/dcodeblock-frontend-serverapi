@@ -36,9 +36,9 @@ const UserSchema = new mongoose_1.default.Schema({
         type: String,
         required: true
     },
-    activities: {
-        type: [UserActionsSchema]
-    }
+    activities: [
+        UserActionsSchema
+    ]
 });
 exports.User = mongoose_1.default.model("User", UserSchema);
 exports.UserActions = mongoose_1.default.model("UserActions", UserActionsSchema);

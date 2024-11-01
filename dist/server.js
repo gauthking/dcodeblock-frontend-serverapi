@@ -7,6 +7,7 @@ const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const userRoutes_1 = __importDefault(require("./routes/userRoutes"));
+const adminRoutes_1 = __importDefault(require("./routes/adminRoutes"));
 require('dotenv').config();
 //app setup 1
 const app = (0, express_1.default)();
@@ -22,6 +23,7 @@ mongoose_1.default.connect(connection_url, {
 });
 // api routes
 app.use("/api/user", userRoutes_1.default);
+app.use("/api/admin", adminRoutes_1.default);
 app.listen(port, () => {
     console.log(`Server started. Listening to port - ${port}`);
 });

@@ -16,6 +16,7 @@ exports.loginUser = exports.registerUser = exports.getAllUsers = void 0;
 const model_1 = require("../db-models/model");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
+const utils_1 = require("../utils/utils");
 require('dotenv').config();
 const SALT = process.env.saltVal;
 const getAllUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -46,6 +47,7 @@ const registerUser = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         });
         yield newUser.save();
         const token = jsonwebtoken_1.default.sign({ userId: newUser._id, role: newUser.role }, SALT, { expiresIn: "15m" });
+        yield (0, utils_1.addUserAction)(userEmail, 'Registered');
         res.status(201).json({ token: token, user: newUser, message: "User registered successfully" });
     }
     catch (error) {
@@ -61,12 +63,12 @@ const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         if (!user) {
             return res.status(400).json({ message: "Invalid email or password" });
         }
-        // Compare the entered password with the stored hashed password
         const isMatch = yield bcryptjs_1.default.compare(password, user.password);
         if (!isMatch) {
             return res.status(400).json({ message: "Invalid password" });
         }
         const token = jsonwebtoken_1.default.sign({ userId: user._id, role: user.role }, SALT, { expiresIn: "15m" });
+        yield (0, utils_1.addUserAction)(userEmail, 'Logged in');
         res.status(200).json({ token: token, user: user, message: "Login successful" });
     }
     catch (error) {

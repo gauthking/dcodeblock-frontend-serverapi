@@ -2,6 +2,7 @@ import { User, UserActions } from "../db-models/model";
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs"
+import { addUserAction } from "../utils/utils";
 require('dotenv').config();
 
 
@@ -41,6 +42,9 @@ export const registerUser = async (req: Request, res: Response): Promise<any> =>
             SALT,
             { expiresIn: "15m" }
         );
+
+        await addUserAction(userEmail, 'Registered');
+
         res.status(201).json({ token: token, user: newUser, message: "User registered successfully" });
     } catch (error) {
         console.log("Error in registerUser function:", error);
@@ -68,9 +72,14 @@ export const loginUser = async (req: Request, res: Response): Promise<any> => {
             { expiresIn: "15m" }
         );
 
+        await addUserAction(userEmail, 'Logged in');
+
         res.status(200).json({ token: token, user: user, message: "Login successful" });
     } catch (error) {
         console.log("Error in loginUser function:", error);
         res.status(500).send("Internal server error while logging in :(");
     }
 };
+
+
+

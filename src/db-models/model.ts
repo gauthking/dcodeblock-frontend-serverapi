@@ -33,9 +33,9 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    activities: {
-        type: [UserActionsSchema]
-    }
+    activities: [
+        UserActionsSchema
+    ]
 })
 
 export const User = mongoose.model("User", UserSchema)

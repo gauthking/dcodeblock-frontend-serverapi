@@ -2,6 +2,7 @@ import express from 'express';
 import Cors from 'cors';
 import mongoose from 'mongoose';
 import userRoutes from './routes/userRoutes';
+import adminRoutes from './routes/adminRoutes';
 
 
 require('dotenv').config();
@@ -27,6 +28,7 @@ mongoose.connect(connection_url, {
 
 // api routes
 app.use("/api/user", userRoutes)
+app.use("/api/admin", adminRoutes)
 
 app.listen(port, () => {
     console.log(`Server started. Listening to port - ${port}`);
