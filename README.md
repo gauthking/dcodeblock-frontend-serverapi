@@ -2,7 +2,7 @@
 
 This is the backend API for the Dashboard Application, built using Express.js, TypeScript, and MongoDB to handle user management, authentication, and activity tracking.
 
-**API BASE URL**: [https://dcodeblock-frontend-serverapi.onrender.com](https://dcodeblock-frontend-serverapi.onrender.com)
+**API Hosted URL**: [https://dcodeblock-frontend-serverapi.onrender.com](https://dcodeblock-frontend-serverapi.onrender.com)
 
 **Frontend Client Repository**: [https://github.com/gauthking/dcodeblock-frontend-client](https://github.com/gauthking/dcodeblock-frontend-client)
 
