@@ -1,71 +1,77 @@
-# Real-Time Task Manager API
+# Admin Dashboard Application - Backend Server API
 
-This repository provides the backend API for the Real-Time Task Manager project. Built with Node.js, Express.js, and Socket.io, this API handles real-time task management and provides endpoints to perform CRUD operations on tasks.
+This is the backend API for the Dashboard Application, built using Express.js, TypeScript, and MongoDB to handle user management, authentication, and activity tracking.
 
-## Features
+**API BASE URL**: [https://dcodeblock-frontend-serverapi.onrender.com](https://dcodeblock-frontend-serverapi.onrender.com)
 
-- **CRUD Operations**: Create, read, update, and delete tasks.
-- **Real-Time Updates**: Real-time task updates using Socket.io.
-- **Status Management**: Tasks can be filtered and sorted based on their status.
-- **Notifications**: Supports notifications for task events.
+**Frontend Client Repository**: [https://github.com/gauthking/dcodeblock-frontend-client](https://github.com/gauthking/dcodeblock-frontend-client)
 
-## Getting Started
+## Project Setup
 
-### Prerequisites
+To set up the project locally, follow these steps:
 
-- **Node.js** (version 16 or later)
-
-### Installation
-
-Clone the repository:
-
+1. **Clone the Repository:**
+   ```bash
+   git clone https://github.com/gauthking/dcodeblock-frontend-serverapi.git
+   ```
+2. **Navigate into the Project Directory**
 ```bash
-git clone https://github.com/gauthking/dcodeblock-taskmgr-serverapi.git
-cd dcodeblock-taskmgr-serverapi
+cd dcodeblock-frontend-serverapi
 ```
 
-Install dependencies:
+3. **Install Dependencies**
+   ```bash
+   npm install
+   ```
 
-```bash
-npm install
-```
 
 ### Environment Variables
 
 Create a .env file in the root directory and add the following environment variables
 
 ```bash
-MONGODB_URL="mongodb+srv://appskans2017:0tL0Ztd726Th7DEw@cluster0.b5dnt.mongodb.net/taskdb?retryWrites=true&w=majority&appName=Cluster0"
+MONGODB_URL="mongodb+srv://appskans2017:KScAQsZQgX835Our@cluster0.nws7y.mongodb.net/userDB?retryWrites=true&w=majority&appName=Cluster0"
 ```
+
+### Dependencies
+
+Major dependencies include:
+
+- Express: A web framework for Node.js.
+- TypeScript: For static typing.
+- Mongoose: MongoDB object modeling.
+- bcryptjs: For password hashing.
+- jsonwebtoken: For JWT token creation and verification.
 
 ### Running the Server
 
-Start the server in development mode:
+Start the server in development mode: (runs on localhost 8001)
 
 ```bash
-npx tsc && nodemon ./dist/server.js
+npm run start
 ```
 
-Please change the cors origin link into ```http://localhost:3000``` for express app and socket io in the server.ts file, keeping in mind that the frontend react app is running on localhost 3000.
 
 ### API Endpoints
 
-| Method | Endpoint     | Description               |
-|--------|--------------|---------------------------|
-| GET    | `/tasks`     | Get all tasks             |
-| POST   | `/tasks`     | Create a new task         |
-| PUT    | `/tasks/:id` | Update task status or data |
-| DELETE | `/tasks/:id` | Delete a task             |
+### User Authentication & Management
+
+| Method | Endpoint                | Description                            | Request Body                                                                 |
+|--------|--------------------------|----------------------------------------|------------------------------------------------------------------------------|
+| POST   | `/api/user/signup`       | Registers a new user                   | `{ "userName": "string", "userEmail": "string", "hashedPassword": "string" }`|
+| POST   | `/api/user/login`        | Authenticates a user and returns a JWT | `{ "userEmail": "string", "password": "string" }`                            |
+| GET    | `/api/user/getAllUsers`  | Retrieves all users                   | None                                                                         |
+
+### Admin Management
+
+| Method | Endpoint                    | Description                    | Request Body                                                                                                        |
+|--------|------------------------------|--------------------------------|---------------------------------------------------------------------------------------------------------------------|
+| POST   | `/api/admin/create`          | Creates a new user (admin)     | `{ "userName": "string", "userEmail": "string", "password": "string", "role": "string", "requestingUserEmail": "string" }` |
+| PUT    | `/api/admin/update/:id`      | Updates user details by ID     | `{ "userName": "string", "userEmail": "string", "password": "string", "role": "string", "requestingUserEmail": "string" }` |
+| GET    | `/api/admin/user/:id`        | Retrieves user details by ID   | None                                                                                                               |
+| POST   | `/api/admin/delete/:id`      | Deletes a user by ID (admin)   | `{ "requestingUserEmail": "string" }`                                                                              |
+| POST   | `/api/admin/action`          | Logs an admin action           | `{ "requestingUserEmail": "string", "action": "string" }`                                                          |
 
 
-### Real-Time Functionality
-
-The API uses Socket.io for real-time updates. The following events are emitted:
-
-- task_created: When a new task is created
-- task_updated: When an existing task is updated
-- task_deleted: When a task is deleted
-
-These events allow connected clients to receive instant updates on task changes.
 
 
